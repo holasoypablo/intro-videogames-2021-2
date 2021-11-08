@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerMovementController : MonoBehaviour
+public class PlayerMovementController : Movement
 {
     private Rigidbody _rb;
     private Transform _body;
@@ -9,12 +9,12 @@ public class PlayerMovementController : MonoBehaviour
     private Quaternion _targetRotation;
     private float _targetRotationSpeed;
 
-    public void Move(Vector3 velocity)
+    public override void Move(Vector3 velocity)
     {
         _targetVelocity = velocity;
     }
 
-    public void RotateTo(Quaternion rotation, float rotationSpeed)
+    public override void RotateTo(Quaternion rotation, float rotationSpeed)
     {
         _targetRotation = rotation;
         _targetRotationSpeed = rotationSpeed;
@@ -22,7 +22,7 @@ public class PlayerMovementController : MonoBehaviour
 
     private void Start()
     {
-        _rb = GetComponent<Rigidbody>();
+        _rb = gameObject.AddComponent<Rigidbody>();
         _body = transform.Find("PlayerBody");
     }
 
