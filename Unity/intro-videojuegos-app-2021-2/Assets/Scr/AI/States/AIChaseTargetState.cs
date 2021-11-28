@@ -43,10 +43,16 @@ public class AIChaseTargetState : AIState
                     }
                 );
             }
+            
+
 
             _timerToRefresh = agent.AIConfig.pathfindingRefreshTime;
         }
-        
+         //Si no esta viendo al player
+        if (!agent.IsLookingTarget())
+        {
+            agent.StateMachine.ChangeState(AIStateID.Idle);
+        }
         //If close enough -> Attack
         if (sqrDistanceToPlayer < agent.AIConfig.attackRange * agent.AIConfig.attackRange)
         {

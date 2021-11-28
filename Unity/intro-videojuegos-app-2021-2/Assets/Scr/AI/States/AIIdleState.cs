@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class AIIdleState : AIState
 {
+    private float tiempoEspera;
 
     public AIStateID GetID()
     {
@@ -17,7 +18,15 @@ public class AIIdleState : AIState
     public void Update(AIAgent agent)
     {
         //TODO: Agregar timer para ir a Patrol
-        
+        tiempoEspera += Time.deltaTime;
+
+        //Si lleva 5 segundos quieto
+        if (tiempoEspera >= 5)
+        {
+            tiempoEspera = 0;
+            agent.StateMachine.ChangeState(AIStateID.Patrol);
+        }
+
         //Si el player esta cerca -> Chase
         Vector3 targetDirection = agent.Target.position - agent.transform.position;
         if (targetDirection.magnitude > agent.AIConfig.detectionRange)
@@ -30,6 +39,9 @@ public class AIIdleState : AIState
         {
             agent.StateMachine.ChangeState(AIStateID.ChaseTarget);
         }
+
+        
+        
     }
 
     public void Exit(AIAgent agent)

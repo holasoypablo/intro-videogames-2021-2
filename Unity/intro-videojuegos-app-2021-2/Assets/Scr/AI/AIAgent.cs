@@ -8,6 +8,8 @@ public class AIAgent : MonoBehaviour
     private Transform _player;
     [SerializeField]
     private AIConfig _aiConfig;
+    [SerializeField] 
+    private float angulo_vision = 140;   // Es el angulo total de vision
 
     private MovableAgent _movableAgent;
     private AIStateMachine _stateMachine;
@@ -39,9 +41,18 @@ public class AIAgent : MonoBehaviour
     {
         _stateMachine.Update();
     }
-    
+
     public bool IsLookingTarget()
     {
-        return true;
+        Vector3 objetivo = (Target.position - transform.position).normalized;
+        float angulo = Vector3.Angle(objetivo, transform.forward);
+        if (angulo <= angulo_vision/2)
+        {
+            return true;
+        }
+        else {
+            return false;
+        }
+        
     }
 }
